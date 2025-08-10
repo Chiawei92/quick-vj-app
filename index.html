@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Three.js 太空漂浮立方体 - 混合架构</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,6 +13,12 @@
             overflow: hidden;
             font-family: Arial, sans-serif;
             cursor: grab;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         
         body.dragging {
@@ -237,6 +243,7 @@
             background: rgba(0,0,0,0.5);
             border-radius: 10px;
             z-index: 10;
+            text-align: center;
         }
         
         #three-container {
@@ -263,6 +270,36 @@
         canvas {
             display: block;
         }
+        
+        @media (max-width: 768px) {
+            #info {
+                font-size: 12px;
+                padding: 8px 15px;
+                width: 90%;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .navbar {
+                padding: 0 10px;
+            }
+            
+            .nav-item {
+                font-size: 14px;
+                margin-right: 15px;
+            }
+            
+            .dropdown {
+                font-size: 14px;
+                margin-right: 15px;
+            }
+            
+            .search-btn {
+                width: 120px;
+                height: 28px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -288,7 +325,7 @@
         </nav>
         
         <audio id="bgm" loop preload="auto">
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            <source src="https://raw.githubusercontent.com/Chiawei92/quick-vj-app/main/Omri Smadar - Deep Blue Sea - Remix.mp3" type="audio/mpeg">
         </audio>
         
         <div class="music-control" :class="{ muted: isMuted }" @click="toggleMusic">
@@ -301,7 +338,7 @@
             <i class="fa-solid fa-dice-d20"></i>
         </div>
         
-        <div id="info">按住鼠标左键并拖拽来旋转立方体</div>
+        <div id="info">按住鼠标左键并拖拽来旋转立方体<br>在移动设备上用手指拖拽控制</div>
     </div>
 
     <!-- 依赖 -->
@@ -638,37 +675,59 @@
                 this.damping = 0.98
                 this.sensitivity = 0.005
                 this.transitionSpeed = 0.02
-                this.previousMousePosition = { x: 0, y: 0 }
+                this.previousPosition = { x: 0, y: 0 }
+                this.isDragging = false
                 
+                // 鼠标事件
                 this.renderer.domElement.addEventListener('mousedown', (event) => {
-                    this.isDragging = true
-                    document.body.classList.add('dragging')
-                    this.previousMousePosition = { x: event.clientX, y: event.clientY }
+                    this.handleDragStart(event.clientX, event.clientY)
                 })
+                
+                // 触摸事件
+                this.renderer.domElement.addEventListener('touchstart', (event) => {
+                    if (event.touches.length > 0) {
+                        event.preventDefault()
+                        this.handleDragStart(event.touches[0].clientX, event.touches[0].clientY)
+                    }
+                }, { passive: false })
             }
             
             setupEventListeners() {
+                // 鼠标移动事件
                 window.addEventListener('mousemove', (event) => {
                     if (this.isDragging) {
-                        this.handleMouseMove(event)
+                        this.handleDragMove(event.clientX, event.clientY)
                     }
                 })
                 
+                // 鼠标释放事件
                 window.addEventListener('mouseup', () => {
+                    this.handleDragEnd()
+                })
+                
+                // 触摸移动事件
+                window.addEventListener('touchmove', (event) => {
+                    if (this.isDragging && event.touches.length > 0) {
+                        event.preventDefault()
+                        this.handleDragMove(event.touches[0].clientX, event.touches[0].clientY)
+                    }
+                }, { passive: false })
+                
+                // 触摸结束事件
+                window.addEventListener('touchend', (event) => {
                     if (this.isDragging) {
-                        this.isDragging = false
-                        document.body.classList.remove('dragging')
-                        this.rotationVelocity.axis.copy(this.tempRotation.axis)
-                        this.rotationVelocity.angle = this.tempRotation.angle
+                        this.handleDragEnd()
                     }
                 })
                 
+                // 防止文本选择
                 window.addEventListener('selectstart', (event) => {
                     if (this.isDragging) {
                         event.preventDefault()
                     }
                 })
                 
+                // 窗口大小调整
                 window.addEventListener('resize', () => {
                     this.camera.aspect = window.innerWidth / window.innerHeight
                     this.camera.updateProjectionMatrix()
@@ -676,9 +735,17 @@
                 })
             }
             
-            handleMouseMove(event) {
-                const deltaX = event.clientX - this.previousMousePosition.x
-                const deltaY = event.clientY - this.previousMousePosition.y
+            // 统一的拖拽开始处理
+            handleDragStart(clientX, clientY) {
+                this.isDragging = true
+                document.body.classList.add('dragging')
+                this.previousPosition = { x: clientX, y: clientY }
+            }
+            
+            // 统一的拖拽移动处理
+            handleDragMove(clientX, clientY) {
+                const deltaX = clientX - this.previousPosition.x
+                const deltaY = clientY - this.previousPosition.y
 
                 this.camera.updateMatrixWorld()
                 const cameraRight = new THREE.Vector3()
@@ -711,7 +778,17 @@
                     this.savedQuaternion = this.currentObject.quaternion.clone()
                 }
 
-                this.previousMousePosition = { x: event.clientX, y: event.clientY }
+                this.previousPosition = { x: clientX, y: clientY }
+            }
+            
+            // 统一的拖拽结束处理
+            handleDragEnd() {
+                if (this.isDragging) {
+                    this.isDragging = false
+                    document.body.classList.remove('dragging')
+                    this.rotationVelocity.axis.copy(this.tempRotation.axis)
+                    this.rotationVelocity.angle = this.tempRotation.angle
+                }
             }
             
             getRandomColor() {
