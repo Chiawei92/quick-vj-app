@@ -19,12 +19,12 @@
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            /* 禁用浏览器默认的触摸手势，改善移动端体验 */
+            touch-action: none;
         }
-        
         body.dragging {
             cursor: grabbing;
         }
-        
         .navbar {
             position: absolute;
             top: 0;
@@ -39,12 +39,10 @@
             box-sizing: border-box;
             z-index: 100;
         }
-        
         .nav-left {
             display: flex;
             align-items: center;
         }
-        
         .nav-item {
             color: white;
             font-size: 16px;
@@ -53,17 +51,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
         .nav-item:hover {
             color: white;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             transform: scale(1.05);
         }
-        
         .nav-item:active {
             transform: scale(0.95);
         }
-        
         .dropdown {
             position: relative;
             display: inline-block;
@@ -74,17 +69,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
         .dropdown:hover {
             color: white;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             transform: scale(1.05);
         }
-        
         .dropdown:active {
             transform: scale(0.95);
         }
-        
         .dropdown-content {
             position: absolute;
             background-color: rgba(0, 0, 0, 0.8);
@@ -98,13 +90,11 @@
             transition: all 0.3s ease;
             pointer-events: none;
         }
-        
         .dropdown-content.show {
             opacity: 1;
             transform: translateY(0);
             pointer-events: auto;
         }
-        
         .dropdown-option {
             color: white;
             padding: 12px 16px;
@@ -115,30 +105,24 @@
             transform: translateY(-10px);
             transition: all 0.3s ease;
         }
-        
         .dropdown-content.show .dropdown-option {
             opacity: 1;
             transform: translateY(0);
         }
-        
         .dropdown-content.show .dropdown-option:nth-child(1) {
             transition-delay: 0.1s;
         }
-        
         .dropdown-content.show .dropdown-option:nth-child(2) {
             transition-delay: 0.2s;
         }
-        
         .dropdown-option:hover {
             color: white;
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
             transform: scale(1.05);
         }
-        
         .dropdown-option:active {
             transform: scale(0.95);
         }
-        
         .search-btn {
             width: 160px;
             height: 30px;
@@ -149,21 +133,17 @@
             transition: all 0.3s ease;
             border-radius: 15px;
         }
-        
         .search-btn:hover {
             border-color: white;
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
             transform: scale(1.05);
         }
-        
         .search-btn:active {
             transform: scale(0.95);
         }
-        
         #bgm {
             display: none;
         }
-        
         .music-control {
             position: absolute;
             /* 优化 2: 使用 env() 处理安全区域 */
@@ -180,23 +160,18 @@
             justify-content: center;
             color: white;
         }
-        
         .music-control:hover {
             transform: scale(1.1);
         }
-        
         .music-control.muted .fa-volume-high {
             display: none;
         }
-        
         .music-control:not(.muted) .fa-volume-xmark {
             display: none;
         }
-        
         .music-control.muted .fa-volume-xmark {
             color: #888888;
         }
-        
         /* 骰子按钮 - 使用原始样式 */
         .dice-control {
             position: absolute;
@@ -214,16 +189,13 @@
             justify-content: center;
             color: white;
         }
-        
         .dice-control:hover {
             transform: scale(1.1);
         }
-        
         /* 关键：使用原始的动画定义 */
         .dice-control.changing {
             animation: rotate 2s linear;
         }
-        
         @keyframes rotate {
             from {
                 transform: rotate(0deg) scale(1.1);
@@ -232,7 +204,6 @@
                 transform: rotate(360deg) scale(1.1);
             }
         }
-        
         #info {
             position: absolute;
             /* 优化 2: 使用 env() 处理安全区域 */
@@ -248,7 +219,6 @@
             z-index: 10;
             text-align: center;
         }
-        
         /* 优化 1: 使用 dvh 替换 vh */
         #three-container {
             width: 100vw;
@@ -258,7 +228,6 @@
             left: 0;
             z-index: 1;
         }
-        
         /* 优化 1: 使用 dvh 替换 vh */
         #app {
             position: relative;
@@ -267,15 +236,12 @@
             height: 100dvh; /* Changed from 100vh */
             pointer-events: none;
         }
-        
         #app > * {
             pointer-events: auto;
         }
-        
         canvas {
             display: block;
         }
-        
         @media (max-width: 768px) {
             #info {
                 font-size: 12px;
@@ -284,34 +250,28 @@
                 left: 50%;
                 transform: translateX(-50%);
             }
-            
             .navbar {
                 padding: 0 10px;
             }
-            
             .nav-item {
                 font-size: 14px;
                 margin-right: 15px;
             }
-            
             .dropdown {
                 font-size: 14px;
                 margin-right: 15px;
             }
-            
             .search-btn {
                 width: 120px;
                 height: 28px;
                 font-size: 14px;
             }
-            
             /* 优化 3: 为小屏幕微调底部元素间距，避免重叠 */
             .music-control, .dice-control {
                 /* 在小屏幕上稍微提高底部控件，为 #info 让出空间 */
                 /* 注意：这里也使用了 env() */
                 bottom: calc(60px + env(safe-area-inset-bottom, 0)); 
             }
-            
             #info {
                 /* 在小屏幕上调整 #info 的位置 */
                 bottom: calc(20px + env(safe-area-inset-bottom, 0));
@@ -319,13 +279,11 @@
                 padding: 5px 10px;
             }
         }
-        
         /* 针对非常小的屏幕（例如竖屏手机）的额外调整 */
         @media (max-height: 600px) and (orientation: portrait) {
             .music-control, .dice-control {
                 bottom: calc(65px + env(safe-area-inset-bottom, 0)); /* 再次调整 */
             }
-            
             #info {
                 bottom: calc(20px + env(safe-area-inset-bottom, 0));
                 font-size: 9px;
@@ -337,7 +295,6 @@
 <body>
     <!-- Three.js 渲染容器 -->
     <div id="three-container"></div>
-    
     <!-- Vue 应用容器 -->
     <div id="app">
         <nav class="navbar">
@@ -355,28 +312,22 @@
             </div>
             <button class="search-btn" @click="showAlert('Search')">Search</button>
         </nav>
-        
         <audio id="bgm" loop preload="auto">
             <source src="https://my-vj-app-audio-bucket.oss-cn-hangzhou.aliyuncs.com/neon%20forest.mp3" type="audio/mpeg">
         </audio>
-        
         <div class="music-control" :class="{ muted: isMuted }" @click="toggleMusic">
             <i class="fa-solid fa-volume-high" v-if="!isMuted"></i>
             <i class="fa-solid fa-volume-xmark" v-else></i>
         </div>
-        
         <!-- 关键：使用原始的类绑定方式 -->
         <div class="dice-control" :class="{ changing: isChanging }" @click="changeColor">
             <i class="fa-solid fa-dice-d20"></i>
         </div>
-        
         <div id="info">按住鼠标左键并拖拽来旋转立方体<br>在移动设备上用手指拖拽控制</div>
     </div>
-
     <!-- 依赖 -->
     <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    
     <script>
         // ==================== Three.js 核心模块 ====================
         class ThreeJSRenderer {
@@ -386,20 +337,35 @@
                 this.onColorChangeEnd = onColorChangeEnd
                 this.isChanging = false
                 this.displayMode = 'solid' // 'solid' or 'pointCloud'
+                
+                // --- 新增：缩放相关变量 --- //
+                // 阻尼缩放相关变量
+                this.targetZoom = 5.0; // 初始目标缩放值
+                this.currentZoom = 5.0; // 初始当前缩放值
+                this.ZOOM_DAMPING_FACTOR = 0.15; // 缩放阻尼系数 (0.05-0.2 范围内调整平滑度)
+                this.MOUSE_ZOOM_SPEED = 0.001; // 鼠标滚轮缩放速度 (0.0005-0.002 范围内调整灵敏度)
+                
+                // 缩放范围
+                this.minZoom = 2;  // 最小缩放距离
+                this.maxZoom = 150; // 最大缩放距离
+                
+                // 触摸缩放相关变量
+                this.touchStartDistance = 0;
+                this.touchStartZoom = 5.0;
+                // --- 新增结束 --- //
+                
                 this.init()
             }
-            
             init() {
                 try {
                     this.scene = new THREE.Scene()
                     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000)
-                    this.camera.position.z = 5
-                    
+                    // --- 修改：初始化相机位置使用 currentZoom --- //
+                    this.camera.position.z = this.currentZoom;
                     this.renderer = new THREE.WebGLRenderer({ antialias: true })
                     this.renderer.setSize(window.innerWidth, window.innerHeight)
                     this.renderer.setClearColor(0x000000)
                     this.container.appendChild(this.renderer.domElement)
-                    
                     this.createObject()
                     this.createLights()
                     this.createStarField()
@@ -410,7 +376,6 @@
                     console.error('Three.js 初始化失败:', error)
                 }
             }
-            
             createObject() {
                 if (this.displayMode === 'solid') {
                     this.createCube()
@@ -418,13 +383,11 @@
                     this.createPointCloud()
                 }
             }
-            
             createCube() {
                 const geometry = new THREE.BoxGeometry(2, 2, 2)
                 const initialColors = this.getContrastingColors()
                 this.currentColor1 = initialColors.color1
                 this.currentColor2 = initialColors.color2
-                
                 this.material = new THREE.ShaderMaterial({
                     uniforms: {
                         color1: { value: this.currentColor1 },
@@ -474,33 +437,27 @@
                     depthWrite: true,
                     depthTest: true
                 })
-                
                 this.cube = new THREE.Mesh(geometry, this.material)
                 this.scene.add(this.cube)
                 this.currentObject = this.cube
             }
-            
             createPointCloud() {
                 // 定义立方体边界
                 const size = 2;
                 const bboxMin = new THREE.Vector3(-1, -1, -1);
                 const bboxMax = new THREE.Vector3(1, 1, 1);
-                
                 // 获取当前颜色
                 const initialColors = this.getContrastingColors();
                 this.currentColor1 = initialColors.color1;
                 this.currentColor2 = initialColors.color2;
-                
                 // 创建规则网格点云
                 const divisions = 16; // 每个轴向的分割数
                 const particleCount = divisions * divisions * divisions;
                 const positions = new Float32Array(particleCount * 3);
                 const colors = new Float32Array(particleCount * 3);
-                
                 let index = 0;
                 const step = 2.0 / (divisions - 1); // 网格步长
                 const jitter = 0.4; // 微小随机偏移量
-                
                 // 生成网格点位置和初始颜色
                 for (let x = 0; x < divisions; x++) {
                     for (let y = 0; y < divisions; y++) {
@@ -509,16 +466,13 @@
                             const posX = bboxMin.x + x * step;
                             const posY = bboxMin.y + y * step;
                             const posZ = bboxMin.z + z * step;
-                            
                             // 添加微小随机偏移
                             const jitterX = (Math.random() - 0.5) * jitter * step;
                             const jitterY = (Math.random() - 0.5) * jitter * step;
                             const jitterZ = (Math.random() - 0.5) * jitter * step;
-                            
                             positions[index * 3] = posX + jitterX;
                             positions[index * 3 + 1] = posY + jitterY;
                             positions[index * 3 + 2] = posZ + jitterZ;
-                            
                             // 计算颜色
                             const normalizedPos = new THREE.Vector3(
                                 (posX - bboxMin.x) / (bboxMax.x - bboxMin.x),
@@ -526,22 +480,18 @@
                                 (posZ - bboxMin.z) / (bboxMax.z - bboxMin.z)
                             );
                             const gradient = (normalizedPos.x + normalizedPos.y + normalizedPos.z) / 3.0;
-                            
                             const color = this.currentColor1.clone().lerp(this.currentColor2, gradient);
                             colors[index * 3] = color.r;
                             colors[index * 3 + 1] = color.g;
                             colors[index * 3 + 2] = color.b;
-                            
                             index++;
                         }
                     }
                 }
-                
                 // 创建几何体
                 const geometry = new THREE.BufferGeometry();
                 geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
                 geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-                
                 // 创建材质 - 修改为无光晕效果，解决黑色线框问题
                 const material = new THREE.ShaderMaterial({
                     uniforms: {
@@ -563,16 +513,12 @@
                         void main() {
                             vec2 coord = gl_PointCoord - vec2(0.5);
                             float distance = length(coord);
-                            
                             // 创建清晰的圆形点，无光晕效果
                             if (distance > 0.5) discard;
-                            
                             // 使用平滑的边缘过渡，避免黑色线框
                             float alpha = 1.0 - smoothstep(0.4, 0.5, distance);
-                            
                             // 确保最小透明度，避免完全透明
                             alpha = max(alpha, 0.0);
-                            
                             gl_FragColor = vec4(vColor, alpha);
                         }
                     `,
@@ -582,29 +528,22 @@
                     depthTest: true,   // 保持深度测试以正确排序
                     side: THREE.DoubleSide // 双面渲染
                 });
-                
                 // 创建点云对象
                 this.pointCloud = new THREE.Points(geometry, material);
                 this.scene.add(this.pointCloud);
                 this.currentObject = this.pointCloud;
-                
                 // 设置渲染顺序
                 this.pointCloud.renderOrder = 1;
-                
                 // 保存颜色数据用于后续更新
                 this.pointColors = colors;
                 this.pointPositions = positions;
                 this.pointGeometry = geometry;
-                
                 console.log('Point cloud created with', particleCount, 'particles');
             }
-            
             toggleDisplayMode(mode) {
                 // 将Vue传递的完整字符串转换为内部模式标识
                 const internalMode = mode === 'Solid' ? 'solid' : 'pointCloud';
-                
                 if (this.displayMode === internalMode) return
-                
                 // 移除当前对象
                 if (this.currentObject) {
                     this.scene.remove(this.currentObject)
@@ -615,40 +554,32 @@
                         this.currentObject.material.dispose()
                     }
                 }
-                
                 // 设置新模式
                 this.displayMode = internalMode
-                
                 // 创建新对象
                 this.createObject()
-                
                 // 保持旋转状态
                 if (this.savedQuaternion) {
                     this.currentObject.quaternion.copy(this.savedQuaternion)
                 }
             }
-            
             createLights() {
                 this.starLight = new THREE.PointLight(0xffaa33, 2.5, 100)
                 this.starLight.position.set(15, 15, 15)
                 this.scene.add(this.starLight)
                 this.scene.add(new THREE.AmbientLight(0x404040, 0.3))
-                
                 const fillLight = new THREE.PointLight(0xffffff, 0.2, 100)
                 fillLight.position.set(-10, 0, 0)
                 this.scene.add(fillLight)
-                
                 const bottomLight = new THREE.PointLight(0x88aaff, 0.3, 100)
                 bottomLight.position.set(0, -10, 0)
                 this.scene.add(bottomLight)
             }
-            
             createStarField() {
                 const starCount = 5000
                 const starGeometry = new THREE.BufferGeometry()
                 const starPositions = new Float32Array(starCount * 3)
                 const starSizes = new Float32Array(starCount)
-                
                 for (let i = 0; i < starCount; i++) {
                     const range = 1000
                     starPositions[i * 3] = (Math.random() - 0.5) * range
@@ -656,10 +587,8 @@
                     starPositions[i * 3 + 2] = (Math.random() - 0.5) * range
                     starSizes[i] = Math.random() * 2.5 + 0.5
                 }
-                
                 starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3))
                 starGeometry.setAttribute('size', new THREE.BufferAttribute(starSizes, 1))
-                
                 const starMaterial = new THREE.ShaderMaterial({
                     uniforms: { time: { value: 0 } },
                     vertexShader: `
@@ -691,7 +620,6 @@
                     depthWrite: false,
                     depthTest: true
                 })
-                
                 this.starField = new THREE.Points(starGeometry, starMaterial)
                 this.scene.add(this.starField)
                 this.starField.renderOrder = 0
@@ -699,7 +627,6 @@
                     this.currentObject.renderOrder = 1
                 }
             }
-            
             setupControls() {
                 this.naturalRotation = new THREE.Vector3(0.001, 0.002, 0.0005)
                 this.rotationVelocity = { axis: new THREE.Vector3(0, 0, 0), angle: 0 }
@@ -710,20 +637,34 @@
                 this.previousPosition = { x: 0, y: 0 }
                 this.isDragging = false
                 
+                // --- 新增：缩放相关事件监听器 --- //
+                const canvas = this.renderer.domElement;
+                
                 // 鼠标事件
-                this.renderer.domElement.addEventListener('mousedown', (event) => {
+                canvas.addEventListener('mousedown', (event) => {
                     this.handleDragStart(event.clientX, event.clientY)
                 })
                 
+                // 鼠标滚轮事件
+                canvas.addEventListener('wheel', (event) => {
+                    this.handleMouseWheel(event);
+                }, { passive: false }); // passive: false 以允许 preventDefault
+                
                 // 触摸事件
-                this.renderer.domElement.addEventListener('touchstart', (event) => {
+                canvas.addEventListener('touchstart', (event) => {
                     if (event.touches.length > 0) {
                         event.preventDefault()
-                        this.handleDragStart(event.touches[0].clientX, event.touches[0].clientY)
+                        if (event.touches.length === 1) {
+                            // 单指触摸 - 开始旋转
+                            this.handleDragStart(event.touches[0].clientX, event.touches[0].clientY)
+                        } else if (event.touches.length === 2) {
+                            // 双指触摸 - 开始缩放
+                            this.handleTouchStart(event);
+                        }
                     }
-                }, { passive: false })
+                }, { passive: false }) // passive: false 以允许 preventDefault
+                // --- 新增结束 --- //
             }
-            
             setupEventListeners() {
                 // 鼠标移动事件
                 window.addEventListener('mousemove', (event) => {
@@ -731,26 +672,45 @@
                         this.handleDragMove(event.clientX, event.clientY)
                     }
                 })
-                
                 // 鼠标释放事件
                 window.addEventListener('mouseup', () => {
                     this.handleDragEnd()
                 })
                 
+                // --- 修改：触摸移动和结束事件 --- //
                 // 触摸移动事件
                 window.addEventListener('touchmove', (event) => {
-                    if (this.isDragging && event.touches.length > 0) {
+                    if (this.isDragging && event.touches.length === 1) {
+                        // 单指移动 - 旋转模型
                         event.preventDefault()
                         this.handleDragMove(event.touches[0].clientX, event.touches[0].clientY)
+                    } else if (event.touches.length === 2) {
+                        // 双指移动 - 缩放模型
+                        event.preventDefault();
+                        this.handleTouchMove(event);
                     }
-                }, { passive: false })
+                }, { passive: false }) // passive: false 以允许 preventDefault
                 
                 // 触摸结束事件
                 window.addEventListener('touchend', (event) => {
                     if (this.isDragging) {
                         this.handleDragEnd()
                     }
+                    // 重置触摸缩放状态
+                    this.touchStartDistance = 0;
+                    this.touchStartZoom = this.targetZoom;
                 })
+                
+                // 触摸取消事件 (处理意外中断)
+                window.addEventListener('touchcancel', (event) => {
+                    if (this.isDragging) {
+                        this.handleDragEnd()
+                    }
+                    // 重置触摸缩放状态
+                    this.touchStartDistance = 0;
+                    this.touchStartZoom = this.targetZoom;
+                })
+                // --- 修改结束 --- //
                 
                 // 防止文本选择
                 window.addEventListener('selectstart', (event) => {
@@ -758,7 +718,6 @@
                         event.preventDefault()
                     }
                 })
-                
                 // 窗口大小调整
                 window.addEventListener('resize', () => {
                     this.camera.aspect = window.innerWidth / window.innerHeight
@@ -766,32 +725,26 @@
                     this.renderer.setSize(window.innerWidth, window.innerHeight)
                 })
             }
-            
             // 统一的拖拽开始处理
             handleDragStart(clientX, clientY) {
                 this.isDragging = true
                 document.body.classList.add('dragging')
                 this.previousPosition = { x: clientX, y: clientY }
             }
-            
             // 统一的拖拽移动处理
             handleDragMove(clientX, clientY) {
                 const deltaX = clientX - this.previousPosition.x
                 const deltaY = clientY - this.previousPosition.y
-
                 this.camera.updateMatrixWorld()
                 const cameraRight = new THREE.Vector3()
                 const cameraUp = new THREE.Vector3()
                 cameraRight.setFromMatrixColumn(this.camera.matrixWorld, 0).normalize()
                 cameraUp.setFromMatrixColumn(this.camera.matrixWorld, 1).normalize()
-
                 const angleX = deltaX * this.sensitivity
                 const angleY = deltaY * this.sensitivity
-
                 const quatX = new THREE.Quaternion().setFromAxisAngle(cameraUp, angleX)
                 const quatY = new THREE.Quaternion().setFromAxisAngle(cameraRight, angleY)
                 const deltaQuat = new THREE.Quaternion().multiplyQuaternions(quatY, quatX)
-
                 const tempAxis = new THREE.Vector3()
                 deltaQuat.normalize()
                 const tempAngle = 2 * Math.acos(deltaQuat.w)
@@ -800,19 +753,15 @@
                 } else {
                     tempAxis.set(1, 0, 0)
                 }
-                
                 this.tempRotation.axis.copy(tempAxis)
                 this.tempRotation.angle = tempAngle
-                
                 if (this.currentObject) {
                     this.currentObject.quaternion.premultiply(deltaQuat)
                     // 保存当前旋转状态
                     this.savedQuaternion = this.currentObject.quaternion.clone()
                 }
-
                 this.previousPosition = { x: clientX, y: clientY }
             }
-            
             // 统一的拖拽结束处理
             handleDragEnd() {
                 if (this.isDragging) {
@@ -823,6 +772,54 @@
                 }
             }
             
+            // --- 新增：鼠标滚轮缩放处理 --- //
+            handleMouseWheel(event) {
+                event.preventDefault(); // 阻止页面滚动等默认行为
+                
+                // 根据滚轮方向调整目标缩放值
+                if (event.deltaY > 0) {
+                    this.targetZoom *= (1 + this.MOUSE_ZOOM_SPEED * 100);
+                } else {
+                    this.targetZoom *= (1 - this.MOUSE_ZOOM_SPEED * 100);
+                }
+                
+                // 限制缩放范围
+                this.targetZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.targetZoom));
+            }
+            // --- 新增结束 --- //
+            
+            // --- 新增：触摸缩放处理 --- //
+            // 触摸开始处理（双指缩放）
+            handleTouchStart(event) {
+                if (event.touches.length === 2) {
+                    // 计算初始触摸点距离
+                    const dx = event.touches[0].clientX - event.touches[1].clientX;
+                    const dy = event.touches[0].clientY - event.touches[1].clientY;
+                    this.touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+                    // 记录当前的目标缩放值作为基准
+                    this.touchStartZoom = this.targetZoom;
+                }
+            }
+            
+            // 触摸移动处理（双指缩放）
+            handleTouchMove(event) {
+                if (event.touches.length === 2 && this.touchStartDistance > 0) {
+                    // 计算当前触摸点距离
+                    const dx = event.touches[0].clientX - event.touches[1].clientX;
+                    const dy = event.touches[0].clientY - event.touches[1].clientY;
+                    const currentDistance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // 计算缩放比例
+                    const scaleFactor = currentDistance / this.touchStartDistance;
+                    // 基于触摸开始时的缩放值进行调整
+                    this.targetZoom = this.touchStartZoom * scaleFactor;
+                    
+                    // 限制缩放范围
+                    this.targetZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.targetZoom));
+                }
+            }
+            // --- 新增结束 --- //
+            
             getRandomColor() {
                 const colors = [
                     0xff6b6b, 0x4ecdc4, 0x45b7d1, 0x96ceb4, 0xfeca57,
@@ -831,7 +828,6 @@
                 ]
                 return colors[Math.floor(Math.random() * colors.length)]
             }
-            
             colorDifference(color1, color2) {
                 const r1 = (color1 >> 16) & 0xff
                 const g1 = (color1 >> 8) & 0xff
@@ -841,36 +837,30 @@
                 const b2 = color2 & 0xff
                 return Math.sqrt(Math.pow(r1 - r2, 2) + Math.pow(g1 - g2, 2) + Math.pow(b1 - b2, 2))
             }
-            
             getContrastingColors() {
                 let color1, color2
                 let attempts = 0
                 const maxAttempts = 50
                 const minDifference = 100
-                
                 do {
                     color1 = this.getRandomColor()
                     color2 = this.getRandomColor()
                     attempts++
                 } while (color1 === color2 && attempts < maxAttempts)
-                
                 attempts = 0
                 while (this.colorDifference(color1, color2) < minDifference && attempts < maxAttempts) {
                     color2 = this.getRandomColor()
                     attempts++
                 }
-                
                 return {
                     color1: new THREE.Color(color1),
                     color2: new THREE.Color(color2)
                 }
             }
-            
             generateNewColors() {
                 let newColors
                 let attempts = 0
                 const maxAttempts = 50
-                
                 do {
                     newColors = this.getContrastingColors()
                     attempts++
@@ -879,35 +869,26 @@
                     this.colorDifference(newColors.color2.getHex(), this.currentColor2.getHex()) < 100) &&
                     attempts < maxAttempts
                 )
-                
                 return newColors
             }
-            
             changeColor() {
                 if (this.isChanging) return
-                
                 this.isChanging = true
                 this.changeStartTime = Date.now()
                 this.onColorChangeStart()
-                
                 this.startColor1 = this.currentColor1.clone()
                 this.startColor2 = this.currentColor2.clone()
-                
                 const newColors = this.generateNewColors()
                 this.targetColor1 = newColors.color1
                 this.targetColor2 = newColors.color2
             }
-            
             updateColorChange() {
                 if (!this.isChanging) return
-                
                 const elapsed = Date.now() - this.changeStartTime
                 const progress = Math.min(elapsed / 2000, 1.0)
                 const easeProgress = 1 - Math.pow(1 - progress, 3)
-                
                 const interpolatedColor1 = this.startColor1.clone().lerp(this.targetColor1, easeProgress)
                 const interpolatedColor2 = this.startColor2.clone().lerp(this.targetColor2, easeProgress)
-                
                 // 更新材质颜色
                 if (this.displayMode === 'solid' && this.material) {
                     this.material.uniforms.color1.value.copy(interpolatedColor1)
@@ -918,14 +899,12 @@
                     const bboxMax = new THREE.Vector3(1, 1, 1);
                     const color = new THREE.Color();
                     const colors = this.pointGeometry.attributes.color.array;
-                    
                     const particleCount = this.pointGeometry.attributes.position.count;
                     for (let i = 0; i < particleCount; i++) {
                         // 从存储的位置数据获取位置
                         const posX = this.pointPositions[i * 3];
                         const posY = this.pointPositions[i * 3 + 1];
                         const posZ = this.pointPositions[i * 3 + 2];
-                        
                         // 计算渐变颜色
                         const normalizedPos = new THREE.Vector3(
                             (posX - bboxMin.x) / (bboxMax.x - bboxMin.x),
@@ -933,26 +912,20 @@
                             (posZ - bboxMin.z) / (bboxMax.z - bboxMin.z)
                         );
                         const gradient = (normalizedPos.x + normalizedPos.y + normalizedPos.z) / 3.0;
-                        
                         color.copy(interpolatedColor1).lerp(interpolatedColor2, gradient);
-                        
                         colors[i * 3] = color.r;
                         colors[i * 3 + 1] = color.g;
                         colors[i * 3 + 2] = color.b;
                     }
-                    
                     this.pointGeometry.attributes.color.needsUpdate = true;
                 }
-                
                 this.currentColor1.copy(interpolatedColor1)
                 this.currentColor2.copy(interpolatedColor2)
-                
                 if (progress >= 1.0) {
                     this.isChanging = false
                     this.onColorChangeEnd()
                 }
             }
-            
             animate() {
                 requestAnimationFrame(() => this.animate())
                 this.updateColorChange()
@@ -960,7 +933,6 @@
                 this.starField.material.uniforms.time.value = time
                 const flicker = 0.9 + 0.1 * Math.sin(time * 3)
                 this.starLight.intensity = 2.5 * flicker
-                
                 if (!this.isDragging && this.currentObject) {
                     if (this.rotationVelocity.angle > 0.0001) {
                         const inertiaQuat = new THREE.Quaternion().setFromAxisAngle(
@@ -971,18 +943,24 @@
                         // 保存当前旋转状态
                         this.savedQuaternion = this.currentObject.quaternion.clone()
                     }
-
                     this.rotationVelocity.angle *= this.damping
                     const naturalAxis = this.naturalRotation.clone().normalize()
                     const naturalSpeed = this.naturalRotation.length()
-                    
                     this.rotationVelocity.angle += (naturalSpeed - this.rotationVelocity.angle) * this.transitionSpeed
                     this.rotationVelocity.axis.lerp(naturalAxis, this.transitionSpeed).normalize()
                 }
                 
+                // --- 新增：动画循环中的缩放更新 --- //
+                // 使用阻尼插值更新当前缩放值
+                this.currentZoom += (this.targetZoom - this.currentZoom) * this.ZOOM_DAMPING_FACTOR;
+                
+                // 将相机位置更新为当前缩放值
+                // 这里只更新 z 轴，保持 x 和 y 为 0
+                this.camera.position.z = this.currentZoom;
+                // --- 新增结束 --- //
+                
                 this.renderer.render(this.scene, this.camera)
             }
-            
             destroy() {
                 if (this.renderer) {
                     this.container.removeChild(this.renderer.domElement)
@@ -997,15 +975,12 @@
                 }
             }
         }
-        
         // ==================== Vue 3 应用层 ====================
         const { createApp, ref, onMounted } = Vue
-        
         document.addEventListener('DOMContentLoaded', function() {
             // 全局变量用于通信
             let vueAppInstance = null
             let threeRenderer = null
-            
             // 初始化 Three.js
             const threeContainer = document.getElementById('three-container')
             if (typeof THREE !== 'undefined') {
@@ -1027,64 +1002,52 @@
                     }
                 )
             }
-            
             // 初始化 Vue
             const app = createApp({
                 setup() {
                     const isMuted = ref(false)
                     const isChanging = ref(false)
                     const showDropdown = ref(false)
-                    
                     // 保存实例引用
                     vueAppInstance = { isChanging }
-                    
                     function toggleDropdown() {
                         showDropdown.value = !showDropdown.value
                     }
-                    
                     function selectOption(option) {
                         console.log('选择:', option)
                         showDropdown.value = false
-                        
                         // 处理显示模式切换
                         if (threeRenderer) {
                             threeRenderer.toggleDisplayMode(option)
                         }
                     }
-                    
                     function showAlert(message) {
                         console.log(message)
                     }
-                    
                     function toggleMusic() {
                         isMuted.value = !isMuted.value
                         const bgm = document.getElementById('bgm')
                         isMuted.value ? bgm.pause() : bgm.play().catch(e => console.log(e))
                     }
-                    
                     function changeColor() {
                         if (!isChanging.value && threeRenderer) {
                             threeRenderer.changeColor()
                         }
                     }
-                    
                     onMounted(() => {
                         document.addEventListener('click', (e) => {
                             if (!e.target.closest('.dropdown')) {
                                 showDropdown.value = false
                             }
                         })
-                        
                         const bgm = document.getElementById('bgm')
                         bgm.play().catch(e => console.log('自动播放失败:', e))
-                        
                         document.addEventListener('click', () => {
                             if (!isMuted.value) {
                                 bgm.play().catch(e => console.log('点击播放失败:', e))
                             }
                         }, { once: true })
                     })
-                    
                     return {
                         isMuted,
                         isChanging,
@@ -1097,7 +1060,6 @@
                     }
                 }
             })
-            
             app.mount('#app')
         })
     </script>
