@@ -347,7 +347,7 @@
                 
                 // 缩放范围
                 this.minZoom = 2;  // 最小缩放距离
-                this.maxZoom = 150; // 最大缩放距离
+                this.maxZoom = 50; // 最大缩放距离
                 
                 // 触摸缩放相关变量
                 this.touchStartDistance = 0;
@@ -803,20 +803,27 @@
             
             // 触摸移动处理（双指缩放）
             handleTouchMove(event) {
+                // --- 关键修复：修正缩放方向逻辑 --- //
                 if (event.touches.length === 2 && this.touchStartDistance > 0) {
                     // 计算当前触摸点距离
                     const dx = event.touches[0].clientX - event.touches[1].clientX;
                     const dy = event.touches[0].clientY - event.touches[1].clientY;
                     const currentDistance = Math.sqrt(dx * dx + dy * dy);
                     
-                    // 计算缩放比例
-                    const scaleFactor = currentDistance / this.touchStartDistance;
+                    // 修正：计算距离变化的比例因子
+                    // 当手指分开时，currentDistance > touchStartDistance，scaleFactor > 1
+                    // 我们希望此时摄像机靠近物体 (zoom 减小)
+                    // 所以应该用 touchStartDistance / currentDistance
+                    const scaleFactor = this.touchStartDistance / currentDistance;
+                    
                     // 基于触摸开始时的缩放值进行调整
+                    // 修正：使用除法而不是乘法来获得正确的方向
                     this.targetZoom = this.touchStartZoom * scaleFactor;
                     
                     // 限制缩放范围
                     this.targetZoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.targetZoom));
                 }
+                // --- 关键修复结束 --- //
             }
             // --- 新增结束 --- //
             
